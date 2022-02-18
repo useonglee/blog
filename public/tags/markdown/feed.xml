@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>이우성 기술블로그</title>
+      <link>https://tailwind-nextjs-starter-blog.vercel.app/blog</link>
+      <description>기록하고 공유하고 성장하자</description>
+      <language>ko-KR</language>
+      <managingEditor> (useonglee)</managingEditor>
+      <webMaster> (useonglee)</webMaster>
+      <lastBuildDate>Tue, 08 Mar 2016 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://tailwind-nextjs-starter-blog.vercel.app/tags/markdown/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/testfile/code-sample</guid>
+    <title>Sample .md file</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/testfile/code-sample</link>
+    <description>Example of a markdown file with code blocks and syntax highlighting</description>
+    <pubDate>Tue, 08 Mar 2016 00:00:00 GMT</pubDate>
+    <author> (useonglee)</author>
+    <category>markdown</category><category>code</category><category>features</category>
+  </item>
+
+    </channel>
+  </rss>
