@@ -114,8 +114,6 @@ inquirer
       answers.extension ? answers.extension : 'md'
     }`
 
-    console.log(blogFilePath)
-
     const reviewFilePath = `data/review/${fileName ? fileName : 'untitled'}.${
       answers.extension ? answers.extension : 'md'
     }`
