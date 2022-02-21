@@ -7,27 +7,17 @@
       <language>ko-KR</language>
       <managingEditor> (useonglee)</managingEditor>
       <webMaster> (useonglee)</webMaster>
-      <lastBuildDate>Sat, 07 Aug 2021 15:32:14 GMT</lastBuildDate>
+      <lastBuildDate>Mon, 21 Feb 2022 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://tailwind-nextjs-starter-blog.vercel.app/tags/next-js/feed.xml" rel="self" type="application/rss+xml"/>
       
   <item>
-    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/new-features-in-v1</guid>
-    <title>New features in v1</title>
-    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/new-features-in-v1</link>
-    <description>An overview of the new features released in v1 - code block copy, multiple authors, frontmatter layout and more</description>
-    <pubDate>Sat, 07 Aug 2021 15:32:14 GMT</pubDate>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/test</guid>
+    <title>test 파일</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/test</link>
+    <description>test posting</description>
+    <pubDate>Mon, 21 Feb 2022 00:00:00 GMT</pubDate>
     <author> (useonglee)</author>
-    <category>next-js</category><category>tailwind</category><category>guide</category>
-  </item>
-
-  <item>
-    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/nested-route/introducing-multi-part-posts-with-nested-routing</guid>
-    <title>Introducing Multi-part Posts with Nested Routing</title>
-    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/nested-route/introducing-multi-part-posts-with-nested-routing</link>
-    <description>The blog template supports posts in nested sub-folders. This can be used to group posts of similar content e.g. a multi-part course. This post is itself an example of a nested route!</description>
-    <pubDate>Sun, 02 May 2021 00:00:00 GMT</pubDate>
-    <author> (useonglee)</author>
-    <category>multi-author</category><category>next-js</category><category>feature</category>
+    <category>next-js</category>
   </item>
 
     </channel>

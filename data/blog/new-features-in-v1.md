@@ -6,7 +6,7 @@ tags: ['next-js', 'tailwind', 'guide']
 draft: true
 summary: 'An overview of the new features released in v1 - code block copy, multiple authors, frontmatter layout and more'
 layout: PostSimple
-type: review
+type: blog
 bibliography: references-data.bib
 canonicalUrl: https://tailwind-nextjs-starter-blog.vercel.app/blog/new-features-in-v1/
 ---
