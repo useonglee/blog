@@ -17,7 +17,6 @@ export async function getStaticProps() {
 }
 
 export default function Review({ posts, initialDisplayPosts, pagination }) {
-  console.log(posts)
   return (
     <>
       <PageSEO title={`Review - ${siteMetadata.author}`} description={siteMetadata.description} />
