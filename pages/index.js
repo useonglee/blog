@@ -65,7 +65,7 @@ export default function Home({ posts }) {
                           {summary}
                         </div>
                       </div>
-                      <div className="text-base font-medium leading-6">
+                      {/* <div className="text-base font-medium leading-6">
                         <Link
                           href={`/${type}/${slug}`}
                           className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
@@ -73,7 +73,7 @@ export default function Home({ posts }) {
                         >
                           Read more &rarr;
                         </Link>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </article>
