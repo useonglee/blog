@@ -1,9 +1,21 @@
 {
+  "/404": "pages/404.html",
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
-  "/_error": "pages/_error.js",
-  "/404": "pages/404.js",
+  "/about": "pages/about.js",
+  "/api/buttondown": "pages/api/buttondown.js",
+  "/api/convertkit": "pages/api/convertkit.js",
+  "/api/klaviyo": "pages/api/klaviyo.js",
+  "/api/mailchimp": "pages/api/mailchimp.js",
+  "/blog": "pages/blog.js",
+  "/blog/[...slug]": "pages/blog/[...slug].js",
+  "/blog/page/[page]": "pages/blog/page/[page].js",
   "/": "pages/index.js",
+  "/projects": "pages/projects.html",
   "/review": "pages/review.js",
-  "/blog": "pages/blog.js"
+  "/review/[...slug]": "pages/review/[...slug].js",
+  "/review/page/[page]": "pages/review/page/[page].js",
+  "/tags": "pages/tags.js",
+  "/tags/[tag]": "pages/tags/[tag].js",
+  "/_error": "pages/_error.js"
 }
