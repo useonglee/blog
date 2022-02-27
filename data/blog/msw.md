@@ -15,7 +15,7 @@ type: blog
 <br />
 
 <center>
-<img src="https://user-images.githubusercontent.com/75570915/155076972-241c8add-3e68-4ee7-98ff-89c3d725fcc9.png" alt="msw" width="800px" />
+<img src="https://user-images.githubusercontent.com/75570915/155076972-241c8add-3e68-4ee7-98ff-89c3d725fcc9.png" alt="msw 북마크 이미지" width="800" />
 </center>
 
 <br />
@@ -33,7 +33,7 @@ MSW는 가상 서버를 만들어서 실제 API 요청을 하는 것 처럼 개�
 ## MSW 원리
 
 <center>
-<img src="https://user-images.githubusercontent.com/75570915/155076978-794fbc28-83d4-4e00-b4c4-cf45c2b90b34.png" alt="msw" width="800px" />
+<img src="https://user-images.githubusercontent.com/75570915/155076978-794fbc28-83d4-4e00-b4c4-cf45c2b90b34.png" alt="msw 원리" width="800" />
 </center>
 
 <br />
@@ -164,7 +164,7 @@ useEffect(() => {
 }, [])
 ```
 
-<img width="450px" alt="msw test image" src="https://user-images.githubusercontent.com/75570915/155348469-8397d438-9f88-4aa6-b935-74419cf634f6.png" />
+<img width="450" alt="msw get request console log value image" src="https://user-images.githubusercontent.com/75570915/155348469-8397d438-9f88-4aa6-b935-74419cf634f6.png" />
 
 <br />
 
@@ -191,7 +191,7 @@ useEffect(() => {
 }, [])
 ```
 
-<img width="500px" alt="msw test iamge-2" src="https://user-images.githubusercontent.com/75570915/155349466-2fabb7bb-e68d-40ec-a2da-f776b1aa70ba.png" />
+<img width="500" alt="msw post request console log value image" src="https://user-images.githubusercontent.com/75570915/155349466-2fabb7bb-e68d-40ec-a2da-f776b1aa70ba.png" />
 
 <br />
 `[MSW] Mocking enabled.`가 콘솔에 찍혔다면 모킹 서비스가 정상적으로 돌아가고 있는 것이다. 그리고 mock API요청을 하면 어떤 요청을 했는지도 자세히 나온다. MSW를 간단하게 사용법만 알아 보았지만 이를 활용해 테스트 코드도 작성하며, 데이터 fetching 실패했을 때 로직까지 작성할 수 있다.
