@@ -7,17 +7,27 @@
       <language>ko-KR</language>
       <managingEditor>useong0830@naver.com (useonglee)</managingEditor>
       <webMaster>useong0830@naver.com (useonglee)</webMaster>
-      <lastBuildDate>Tue, 22 Feb 2022 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Tue, 15 Mar 2022 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://www.useonglee.dev/feed.xml" rel="self" type="application/rss+xml"/>
       
   <item>
-    <guid>https://www.useonglee.dev/blog/msw</guid>
-    <title>MSW로 API 모킹하기</title>
-    <link>https://www.useonglee.dev/blog/msw</link>
-    <description>서버가 아직 API 개발중이라면? MSW로 API 모킹하기!!</description>
-    <pubDate>Tue, 22 Feb 2022 00:00:00 GMT</pubDate>
+    <guid>https://www.useonglee.dev/blog/테오의-구글스프린트-4기-후기</guid>
+    <title>테오의 구글스프린트 4기 후기</title>
+    <link>https://www.useonglee.dev/blog/테오의-구글스프린트-4기-후기</link>
+    <description>5일동안 구글 스프린트를 진행하면서 npm 라이브러리 만든 썰 푼다~</description>
+    <pubDate>Tue, 15 Mar 2022 00:00:00 GMT</pubDate>
     <author>useong0830@naver.com (useonglee)</author>
-    <category>개발</category><category>front-end</category>
+    <category>후기</category>
+  </item>
+
+  <item>
+    <guid>https://www.useonglee.dev/blog/우아한-멘토링-후기</guid>
+    <title>우아한 멘토링 후기</title>
+    <link>https://www.useonglee.dev/blog/우아한-멘토링-후기</link>
+    <description>우아한 테크 살롱 오픈 행사로 진행한 우아한 멘토링 후기</description>
+    <pubDate>Wed, 16 Feb 2022 00:00:00 GMT</pubDate>
+    <author>useong0830@naver.com (useonglee)</author>
+    <category>후기</category>
   </item>
 
     </channel>
