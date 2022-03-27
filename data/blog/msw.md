@@ -1,7 +1,7 @@
 ---
 title: 'MSW로 API 모킹하기'
 date: 2022-02-22
-lastmod: '2021-02-24'
+lastmod: '2022-02-24'
 tags: ['개발', 'front-end']
 draft: false
 summary: '서버가 아직 API 개발중이라면? MSW로 API 모킹하기!!'
