@@ -7,9 +7,19 @@
       <language>ko-KR</language>
       <managingEditor>useong0830@naver.com (useonglee)</managingEditor>
       <webMaster>useong0830@naver.com (useonglee)</webMaster>
-      <lastBuildDate>Tue, 22 Feb 2022 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Wed, 16 Mar 2022 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://www.useonglee.dev/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://www.useonglee.dev/blog/user-agent</guid>
+    <title>User Agent</title>
+    <link>https://www.useonglee.dev/blog/user-agent</link>
+    <description>웹뷰를 처음 개발하면서 만난 user agent</description>
+    <pubDate>Wed, 16 Mar 2022 00:00:00 GMT</pubDate>
+    <author>useong0830@naver.com (useonglee)</author>
+    <category>웹뷰</category><category>front-end</category>
+  </item>
+
   <item>
     <guid>https://www.useonglee.dev/blog/msw</guid>
     <title>MSW로 API 모킹하기</title>
