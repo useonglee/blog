@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>이우성 기술블로그</title>
+      <link>https://www.useonglee.dev/blog</link>
+      <description>기록하고 공유하고 성장하자</description>
+      <language>ko-KR</language>
+      <managingEditor>useong0830@naver.com (useonglee)</managingEditor>
+      <webMaster>useong0830@naver.com (useonglee)</webMaster>
+      <lastBuildDate>Tue, 05 Apr 2022 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://www.useonglee.dev/tags/javascript/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://www.useonglee.dev/blog/객체-리터럴&원시값과-객체의-비교</guid>
+    <title>객체 리터럴 &amp; 원시값과 객체의 비교</title>
+    <link>https://www.useonglee.dev/blog/객체-리터럴&원시값과-객체의-비교</link>
+    <description>모던 자바스크립트 Deep Dive 스터디 - 객체를 톺아보자!</description>
+    <pubDate>Tue, 05 Apr 2022 00:00:00 GMT</pubDate>
+    <author>useong0830@naver.com (useonglee)</author>
+    <category>javascript</category><category>study</category>
+  </item>
+
+    </channel>
+  </rss>
