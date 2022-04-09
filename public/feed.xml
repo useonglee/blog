@@ -7,9 +7,19 @@
       <language>ko-KR</language>
       <managingEditor>useong0830@naver.com (useonglee)</managingEditor>
       <webMaster>useong0830@naver.com (useonglee)</webMaster>
-      <lastBuildDate>Tue, 05 Apr 2022 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Sat, 09 Apr 2022 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://www.useonglee.dev/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://www.useonglee.dev/blog/Storybook-적용하면서-어려웠던-점</guid>
+    <title>Storybook 적용하면서 어려웠던 점</title>
+    <link>https://www.useonglee.dev/blog/Storybook-적용하면서-어려웠던-점</link>
+    <description>최근 프로젝트에 Storybook을 적용하면서 어려웠던 점을 기록</description>
+    <pubDate>Sat, 09 Apr 2022 00:00:00 GMT</pubDate>
+    <author>useong0830@naver.com (useonglee)</author>
+    <category>front-end</category>
+  </item>
+
   <item>
     <guid>https://www.useonglee.dev/blog/객체-리터럴&원시값과-객체의-비교</guid>
     <title>객체 리터럴 &amp; 원시값과 객체의 비교</title>
