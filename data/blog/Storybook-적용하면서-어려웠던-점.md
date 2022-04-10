@@ -146,14 +146,42 @@ TypeCheckerComponent.story = {
 <br />
 
 <center>
-<img src="https://user-images.githubusercontent.com/75570915/162616810-3ea48410-6707-47c3-ba79-0487720b5443.gif" alt="스토리북 컨트롤러 에러 gif" width="900" loading="lazy" />
+<img src="https://user-images.githubusercontent.com/75570915/162616810-3ea48410-6707-47c3-ba79-0487720b5443.gif" alt="스토리북 컨트롤러 완성된 스토리북 gif" width="900" loading="lazy" />
 </center>
 
 <br />
 <br />
 
-## storybook에서 snapshot 찍을 때 발생한 에러
+## storybook에서 snapshot 테스트할 때 발생한 에러
 
-## storybook CI 환경 구축하기
+공식문에 따르면 Storybook에서 스냅샷 테스트는 매우 간단하다. 그래서 공식문서에 설명한대로 그대로 스냅샷 테스트를 해보았다. 하지만 이상하게도 npm run test를 하면 계속 아래와 같은 에러가 발생했다.
+
+<center>
+<img src="https://user-images.githubusercontent.com/75570915/162617768-942fbe47-c3ac-4088-b33e-aba6f84fc987.png" alt="스토리북 컨트롤러 에러 gif" width="700" loading="lazy" />
+</center>
+
+위와 같은 에러는 html이 모두 로드 되기 전에 자바스크립트 영역에서 html을 참조하기 때문에 나타나는 에러다. 즉, addEventListener에서 HTML 태그를 참조할 수 없기 때문에 null 값을 참조하게 됐고, null을 참조하면서 에러가 발생한 것이다. 그러면 html이 모두 로드 되기 전 자바스크립트 영역에서 html을 참조한 것과 스토리북 스냅샷 테스트와 도대체 무슨 연관이 있을까? 이 부분에 대한 문제는 React 공식문서에서 해결할 수 있었다.<br />
+[Mocking Refs for Snapshot Testing - React](https://reactjs.org/blog/2016/11/16/react-v15.4.0.html#mocking-refs-for-snapshot-testing)
+
+이벤트리스너에 대한 이야기는 아니지만 html이 모두 로드 되기 전에 DOM을 조작할 수 없으므로 this.input이 null이라고 나온다. 그래서 mock 함수를 통해 이 문제를 해결하고 있다. 그래서 스토리북안에서 사용하고 있는 모든 이벤트핸들러를 모킹 함수로 만들어줘야하나 고민하던 찰나에 스토리북 애드온 스냅샷 깃헙을 찾게 되었고, 비슷한 문제를 해결하기 위한 필요한 코드를 찾고 적용하니 해결 되었다. 해결 방법은 스토리북 스냅샷 테스트 함수인 initStoryshots에 옵션을 추가해주었다.
+
+```jsx
+import initStoryshots from "@storybook/addon-storyshots";
+
+initStoryshots({
+  framework: "react",
+  test: ({ story }) => {
+    const view = story.render();
+    expect(view).toMatchSnapshot();
+  },
+});
+```
+
+공식문서 튜토리얼은 `initStoryshots()`만 써도 스냅샷 테스팅이 가능했다. 하지만 실제 프로젝트에 적용했을 때는 아까와 같은 에러가 발생하면서 테스트가 전혀 되지 않았다. 그래도 mock
+함수 추가 없이 initStoryshots 옵션값을 통해 스냅샷 테스트를 하니 잘 작동했다.
+
+<br />
 
 ## 마무리
+
+현재 적용한 프로젝트는 유지보수가 잘 되고 있진 않다.(유지 보수할 부분이 없기도 하다.) 그럼에도 스토리북을 적용해보았다. 사실 스토리북 공부 목적으로 이 프로젝트와 알맞아서 적용해 보았는데 아쉬운 점은 이 프로젝트에는 서버와 통신하는 부분이 없고, 상태관리하는 부분이 전혀 없다. msw를 사용해서 서버 네트워킹을 가로챈 후 mock 데이터로 스토리북에서 활용할 수 있다. 그리고 스토어에 저장된 값도 꺼내와서 스토리북에서 사용해 볼 수 있다. 이러한 부분들을 프로젝트에 적용하면서 공부하지 못한 것이 많이 아쉽다. (그래서 공식문서 튜토리얼보면서 열심히 연습한걸로 만족하고 있다..) 다음 사이드 프로젝트를 하게 된다면, 또는 현업에서 스토리북을 적용할 기회가 생긴다면 이러한 부분들까지 활용해보고싶다.
