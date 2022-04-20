@@ -7,9 +7,19 @@
       <language>ko-KR</language>
       <managingEditor>useong0830@naver.com (useonglee)</managingEditor>
       <webMaster>useong0830@naver.com (useonglee)</webMaster>
-      <lastBuildDate>Sat, 09 Apr 2022 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Wed, 20 Apr 2022 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://www.useonglee.dev/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://www.useonglee.dev/blog/HTTP-개관</guid>
+    <title>HTTP: 웹의 기초 - 1장 HTTP 개관</title>
+    <link>https://www.useonglee.dev/blog/HTTP-개관</link>
+    <description>HTTP 완벽가이드 스터디를 진행하며 책 내용을 내껄로 만드는 중</description>
+    <pubDate>Wed, 20 Apr 2022 00:00:00 GMT</pubDate>
+    <author>useong0830@naver.com (useonglee)</author>
+    <category>http-완벽가이드</category><category>study</category>
+  </item>
+
   <item>
     <guid>https://www.useonglee.dev/blog/Storybook-적용하면서-어려웠던-점</guid>
     <title>Storybook 적용하면서 어려웠던 점</title>
