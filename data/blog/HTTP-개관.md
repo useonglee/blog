@@ -12,7 +12,7 @@ type: blog
 <TOCInline toc={props.toc} exclude="목차" toHeading={2} />
 
 <center>
-<img src="https://user-images.githubusercontent.com/75570915/164227299-883a28e7-540c-42ec-820e-5f382b23bb38.jpeg" alt="스토리북 Controller 컴포넌트 gif" width="400" loading="lazy" />
+<img src="https://user-images.githubusercontent.com/75570915/164227299-883a28e7-540c-42ec-820e-5f382b23bb38.jpeg" alt="HTTP 완벽가이드 책 표지 이미지" width="400" loading="lazy" />
 </center>
 
 ## 들어가며
@@ -47,6 +47,10 @@ MIME 타입 예시
 
 - HTML로 작성된 테스트 문서는 text/html
 - JPEG 이미지는 image/jpeg
+
+<center>
+<img src="https://user-images.githubusercontent.com/75570915/165887218-6d700cac-a443-46be-8c45-0cac7362b886.png" alt="HTTP MIME 타입 예시" width="700" loading="lazy" />
+</center>
 
 ## 1.3.2 URI
 
@@ -90,6 +94,10 @@ HTTP는 HTTP 메서드라고 불리는 여러 가지 종류의 요청 명령을 
 
 HTTP 메시지는 단순한 `줄 단위의 문자열`이다. 이진 형식이 아닌 일반 텍스트이기 때문에 사람이 읽고 쓰기 쉽다. 그리고 웹 클라이언트에서 웹 서버로 보낸 HTTP 메시지를 요청 메시지라고 부른다. 반대로 서버에서 클라이언트는 응답 메시지다. 그리고 이외의 메시지는 없다.
 
+<center>
+<img src="https://user-images.githubusercontent.com/75570915/165889435-e4bccbac-f55d-476b-8197-dd2a2674f606.png" alt="HTTP GET 트랜잭션 예시" width="800" loading="lazy" />
+</center>
+
 ## 1.6 TCP 커넥션
 
 ## 1.6.1 TCP/IP
@@ -108,26 +116,29 @@ TCP/IP는 각 네트워크와 하드웨어의 특성을 숨기고, 어떤 종류
 
 HTTP 서버의 IP 주소와 포트번호를 어떻게 알아낼 수 있을까? 바로 URL을 이용하면 된다. URL은 리소스에 대한 주소이기 때문에 URL에서 정보를 추출해서 알아내면 된다. 그러면 HTTP를 이용해서 서버의 단순한 HTML 리소스를 사용자에게 어떠한 과정을 통해 보여주는지 알아보자.
 
-a. 웹 브라우저는 서버의 URL에서 호스트 명을 추출한다.
-b. 웹 브라우저는 서버의 호스트 명을 IP로 변환한다.
-c. 웹 브라우저는 URL에서 포트번호를 추출한다.
-b. 웹 브라우저는 웹 서버와 TCP 커넥션을 맺는다.
-e. 웹 브라우저는 서버에 HTTP 요청 보낸다.
-f. 서버는 웹 브라우저에 HTTP 응답을 돌려준다.
+a. 웹 브라우저는 서버의 URL에서 호스트 명을 추출한다.<br />
+b. 웹 브라우저는 서버의 호스트 명을 IP로 변환한다.<br />
+c. 웹 브라우저는 URL에서 포트번호를 추출한다.<br />
+b. 웹 브라우저는 웹 서버와 TCP 커넥션을 맺는다.<br />
+e. 웹 브라우저는 서버에 HTTP 요청 보낸다.<br />
+f. 서버는 웹 브라우저에 HTTP 응답을 돌려준다.<br />
 g. 커넥션이 닫히면, 웹 브라우저는 문서를 보여준다.
 
 ## 1.7 프로토콜 버전
 
-HTTP/0.9<br />
+**HTTP/0.9**<br />
 HTTP/0.9는 오직 GET 메서드만 지원하고, MIME 타입이나 HTTP 헤더, 버전 번호는 지원하지 않는다. HTTP/0.9는 원래 간단한 HTML 객체를 받아 오기 위해 만들어진 것이다.
 
-HTTP/1.0<br />
+**HTTP/1.0**<br />
 HTTP/1.0은 버전 번호, HTTP 헤더, 추가 메서드, 멀티미디어 객체 처리를 추가했다.
 
-HTTP/1.0+ <br />
+**HTTP/1.0+**<br />
 오래 지속되는 'keep-alive' 커넥션, 가상 호스팅 지원, 프락시 연결 지원을 포함해 많은 기능이 공식적이진 않지만 사실상의 표준으로 HTTP에 추가되었다.
 
-HTTP/2.0 <br />
+**HTTP/1.1**<br />
+1.1 버전은 HTTP 설계의 구조적 결함 교정, 두드러진 성능 최적화, 잘못된 기능 제거에 집중했다. 그리고 더 복잡해진 웹 애플리케이션과 배포를 지원한다. 현재의 HTTP는 HTTP/1.1 버전이다.
+
+**HTTP/2.0**<br />
 HTTP/1.1 성능 문제를 개선하기 위해 구글의 SPDY 프로토콜을 기반으로 설계가 진행 중인 프로토콜이다.
 
 ## 1.8 웹의 구성요소
@@ -136,15 +147,33 @@ HTTP/1.1 성능 문제를 개선하기 위해 구글의 SPDY 프로토콜을 기
 
 프락시는 클라이언트와 서버 사이에 위치하여, 클아이언트의 모든 HTTP 요청을 받아 서버에 전달한다. 사용자를 위한 프록시로 동작하며 프록시는 사용자를 대신해서 서버에 접근한다. 프록시는 주로 보안을 위해 사용한다. 즉, 모든 웹 트래픽 흐름 속에서 신뢰할 만한 중개자 역할을 한다. 또한 프록시는 요청과 응답을 필터링한다.
 
+<center>
+<img src="https://user-images.githubusercontent.com/75570915/165890347-d848acfc-e123-4e5c-bfa4-94438f21e31b.png" alt="HTTP Proxy 예시" width="700" loading="lazy" />
+</center>
+
+<br />
+
 ## 1.8.2 캐시
 
 웹캐시와 캐시 프록시는 자신을 거쳐 가는 문서들 중 자주 찾는 것의 사본을 저장해 두는, 특별한 종류의 HTTP 프록시 서버다.
 
 그래서 캐시 프록시는 성능 향상을 위해 자주 찾는 문서를 캐시에 저장해두고 필요할 때마다 더 빨리 문서를 다운받을 수 있다. 그래서 HTTP는 이러한 캐시를 효율적으로 사용해서 문서들을 최신 버전으로 유지하면서 동시에 프라이버시도 보호하기 위한 많은 기능을 정의한다.
 
+<center>
+<img src="https://user-images.githubusercontent.com/75570915/165890646-8052d7b3-1df3-4de9-908f-a9f082ff45ee.png" alt="HTTP Cache 예시" width="700" loading="lazy" />
+</center>
+
+<br />
+
 ## 1.8.3 게이트웨이
 
 게이트웨이는 주로 HTTP 트래픽을 다른 프로토콜로 변환하기 위해 사용된다. 게이트웨이는 스스로가 리소스를 갖고 있는 진짜 서버인 것처럼 요청을 다룬다. 클라이언트는 자신이 게이트웨이와 통신하고 있음을 알아채지 못할 것이다.
+
+HTTP/FTP 게이트웨이는 FTP URI에 대한 HTTP 요청을 받아들인 뒤, FTP 프로토콜을 이용해 문서를 가져온다. 받아온 문서는 HTTP 메시지에 담겨 클라이언트에게 보낸다.
+
+<center>
+<img src="https://user-images.githubusercontent.com/75570915/165891118-47057d4b-4d2e-4d06-9ad6-90a0f07e86e5.png" alt="HTTP 게이트웨이 예시" width="700" loading="lazy" />
+</center>
 
 ## 1.8.4 터널
 
