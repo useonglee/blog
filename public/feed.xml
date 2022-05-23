@@ -7,9 +7,19 @@
       <language>ko-KR</language>
       <managingEditor>useong0830@naver.com (useonglee)</managingEditor>
       <webMaster>useong0830@naver.com (useonglee)</webMaster>
-      <lastBuildDate>Sat, 14 May 2022 15:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Mon, 23 May 2022 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://www.useonglee.dev/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://www.useonglee.dev/blog/자바스크립트-Number-Math-Date-RegExp</guid>
+    <title>자바스크립트 Number &amp; Math &amp; Date &amp; RegExp 정리</title>
+    <link>https://www.useonglee.dev/blog/자바스크립트-Number-Math-Date-RegExp</link>
+    <description>자바스크립트 딥다이브 28장 Number, 29장 Math, 30장 Date, 31장 RegExp 정리</description>
+    <pubDate>Mon, 23 May 2022 00:00:00 GMT</pubDate>
+    <author>useong0830@naver.com (useonglee)</author>
+    <category>javascript</category><category>study</category>
+  </item>
+
   <item>
     <guid>https://www.useonglee.dev/blog/5월-사이드프로젝트-에러-정리</guid>
     <title>5월 사이드 프로젝트를 하며 만났던 에러 정리</title>
