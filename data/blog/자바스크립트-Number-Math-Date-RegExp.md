@@ -1,5 +1,5 @@
 ---
-title: "자바스크립트 Number & Math & RegExp 정리"
+title: "자바스크립트 Number & Math & Date & RegExp 정리"
 date: 2022-05-23
 lastmod: "2022-05-23"
 tags: ["javascript", "study"]
@@ -338,6 +338,155 @@ Math.min(); // -> Infinity
 // 배열에서는 스프레드 문법 사용을 해야한다.
 Math.max(...[1, 2, 3]); // -> 3
 Math.min(...[1, 2, 3]); // -> 1
+```
+
+<br />
+<br />
+
+## 30장 Date
+
+표준 빌트인 객체 Date는 날짜와 시간을 위한 메서드를 제공하는 빌트인 객체이면서 생성자 함수이다. 기술적인 표기에서는 UTC(협정 세계시)가 사용되며, KST(한국 표준시)는 UTC에 9시간을 더한 시간이다. 즉, UTC 00:00 AM은 KST 09:00 AM이다. 그리고 Date 생성자 함수로 생성한 Date 객체는 기본적으로 현재 날짜와 시간을 나타내는 정수값을 가진다.
+
+Date 생성자 함수에 숫자 타입의 인수를 전달하면 1970년 1월 1일 00:00:00 (UTC)을 기점으로 인수로 전달된 밀리초만큼 경과한 날짜와 시간을 나타내는 Date 객체를 반환한다.
+
+```js
+new Date();
+// Wed May 25 2022 22:05:58 GMT+0900 (한국 표준시)
+
+new Date(0);
+// Thu Jan 01 1970 09:00:00 GMT+0900 (한국 표준시)
+```
+
+<br />
+
+### new Date(dateString)
+
+Date 생성자 함수에 날짜와 시간을 나타내는 문자열을 인수로 전달하면 해당 날짜의 Date 객체를 반환한다.
+
+```js
+new Date("Wed May, 25 2022 22:05:58");
+// Wed May 25 2022 22:05:58 GMT+0900 (한국 표준시)
+```
+
+<br />
+
+### Date 메서드
+
+```js
+// 1970년 1월 1일 00:00:00 (UTC) 기점으로 현재까지 경과한 밀리초 반환
+Date.now();
+// 1653484840938
+
+// 객체의 연도를 나타내는 정수를 반환
+new Date("2022/05/25").getFullYear(); // '2022'
+```
+
+<br />
+
+### Date set\*
+
+Date 객체에 연도, 월, 일, 시간, 분, 초 단위를 설정할 수 있다.
+
+```js
+const today = new Date();
+
+// 연도 지정
+today.setFullYear(2022);
+today.getFullYear(); // 2022
+
+// 월/일 지정
+today.setMonth(5, 25); // 5월 25일
+today.getMonth(); // 5
+
+// 날짜 지정
+today.setDate(1);
+today.getDate(); // 1
+
+// 시간 지정
+today.setHours(22);
+today.getHours();
+
+// 분 지정
+today.setMinutes(30);
+today.getMinutes(); // 30
+```
+
+<br />
+
+### Date.prototype.toISOString
+
+ISO 8601 형식으로 Date 객체의 날짜와 시간을 표현한 문자열을 반환한다. 그리고 보통 서버에서 데이터를 받을 때 주로 `created_at`이란 키 값으로 시간 데이터를 받는데, 이 때도 ISO 8601 형식으로 받는다.
+
+```js
+const today = new Date("2022/5/25/19:49");
+
+today.toISOString(); // '2022-05-25T10:49:00.000Z'
+
+today.toISOString().slice(0, 10); // 2022-05-25
+today.toISOString().slice(0, 10).replace(/-/g); // 20220525
+```
+
+하지만 이 형식은 utc 기준이므로 현재 시간보다 -9시간을 한 시간으로 표시해준다. 그리고 사용자가 보기 좋은 시간으로 표시하려면 매번 자바스크립트 메서드를 활용해야 하는데 이러한 부분들을 매번 한다고 생각하면 정말 귀찮은 일이다. 그래서 실제로 나는 다음과 같은 유틸 함수를 만들어서 사용하고 있다. 서버에서 받은 값들을 아래 유틸함수를 통해 가공 후 사용하고 있다. dayjs는 라이브러리이므로 따로 설치해주어야 한다.
+
+```js
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
+
+export default function dateFormatter(date: string) {
+  return dayjs.utc(date).local().format("YYYY.MM.DD HH:mm");
+}
+
+const today = dateFormatter("2022-05-27T06:10:32");
+
+console.log(today); // 2022.05.27 15:10
+```
+
+<br />
+
+### Date를 활용한 시계 예제
+
+```js
+(function printNow() {
+  const today = new Date();
+
+  const dayNames = [
+    "(일요일)",
+    "(월요일)",
+    "(화요일)",
+    "(수요일)",
+    "(목요일)",
+    "(금요일)",
+    "(토요일)",
+  ];
+
+  // getDay 메서드는 해당 요일(0 ~ 6)을 나타내는 정수를 반환한다.
+  const day = dayNames[today.getDay()];
+
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const date = today.getDate();
+  const hour = today.getHours();
+  const minute = today.getMinutes();
+  const second = today.getSecond();
+  const ampm = hour >= 12 ? "PM" : "AM";
+
+  // 12시간제로 변경
+  hour %= 12;
+  hour = hour || 12;
+
+  // 10 미만인 분과 초를 2자리로 변경
+  minute = minute < 10 ? "0" + minute : minute;
+  second = second < 10 ? "0" + second : second;
+
+  const now = `${year}년 ${month}월 ${date}일 ${day} ${hour}:${minute}:${second} ${ampm}`;
+
+  console.log(now);
+
+  // 1초마다 prinNow 함수를 재귀 호출한다.
+  setTimeout(printNow, 1000);
+})();
 ```
 
 <br />
