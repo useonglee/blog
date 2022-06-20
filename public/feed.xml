@@ -7,9 +7,19 @@
       <language>ko-KR</language>
       <managingEditor>useong0830@naver.com (useonglee)</managingEditor>
       <webMaster>useong0830@naver.com (useonglee)</webMaster>
-      <lastBuildDate>Sat, 28 May 2022 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Mon, 20 Jun 2022 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://www.useonglee.dev/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://www.useonglee.dev/blog/이벤트</guid>
+    <title>이벤트</title>
+    <link>https://www.useonglee.dev/blog/이벤트</link>
+    <description>모던 자바스크립트 Deep Dive 스터디 - 40장 이벤트</description>
+    <pubDate>Mon, 20 Jun 2022 00:00:00 GMT</pubDate>
+    <author>useong0830@naver.com (useonglee)</author>
+    <category>javascript</category><category>study</category>
+  </item>
+
   <item>
     <guid>https://www.useonglee.dev/blog/git-squash</guid>
     <title>git squash</title>
