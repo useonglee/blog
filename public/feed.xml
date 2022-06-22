@@ -7,9 +7,19 @@
       <language>ko-KR</language>
       <managingEditor>useong0830@naver.com (useonglee)</managingEditor>
       <webMaster>useong0830@naver.com (useonglee)</webMaster>
-      <lastBuildDate>Mon, 20 Jun 2022 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Wed, 22 Jun 2022 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://www.useonglee.dev/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://www.useonglee.dev/blog/캡슐화</guid>
+    <title>캡슐화</title>
+    <link>https://www.useonglee.dev/blog/캡슐화</link>
+    <description>리팩터링 2판 - 7장 캡슐화</description>
+    <pubDate>Wed, 22 Jun 2022 00:00:00 GMT</pubDate>
+    <author>useong0830@naver.com (useonglee)</author>
+    <category>study</category>
+  </item>
+
   <item>
     <guid>https://www.useonglee.dev/blog/이벤트</guid>
     <title>이벤트</title>
