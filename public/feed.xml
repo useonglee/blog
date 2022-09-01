@@ -7,9 +7,19 @@
       <language>ko-KR</language>
       <managingEditor>useong0830@naver.com (useonglee)</managingEditor>
       <webMaster>useong0830@naver.com (useonglee)</webMaster>
-      <lastBuildDate>Mon, 18 Jul 2022 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Thu, 01 Sep 2022 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://www.useonglee.dev/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://www.useonglee.dev/blog/넘블-쿠팡-챌린지-4회차</guid>
+    <title>넘블 쿠팡 클론 코딩 챌린지 4회차 회고록</title>
+    <link>https://www.useonglee.dev/blog/넘블-쿠팡-챌린지-4회차</link>
+    <description>쿠팡 서비스의 상품 목록 페이지 구현을 마친 후 회고</description>
+    <pubDate>Thu, 01 Sep 2022 00:00:00 GMT</pubDate>
+    <author>useong0830@naver.com (useonglee)</author>
+    <category>project</category>
+  </item>
+
   <item>
     <guid>https://www.useonglee.dev/blog/빌드-프로세스-개선하기</guid>
     <title>Runtime 환경 변수 설정으로 빌드 프로세스 개선하기</title>
