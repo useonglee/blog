@@ -7,9 +7,19 @@
       <language>ko-KR</language>
       <managingEditor>useong0830@naver.com (useonglee)</managingEditor>
       <webMaster>useong0830@naver.com (useonglee)</webMaster>
-      <lastBuildDate>Thu, 01 Sep 2022 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Wed, 07 Sep 2022 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://www.useonglee.dev/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://www.useonglee.dev/blog/상속-다루기</guid>
+    <title>상속 다루기</title>
+    <link>https://www.useonglee.dev/blog/상속-다루기</link>
+    <description>리팩터링 2판 - 12장 상속 다루기</description>
+    <pubDate>Wed, 07 Sep 2022 00:00:00 GMT</pubDate>
+    <author>useong0830@naver.com (useonglee)</author>
+    <category>study</category>
+  </item>
+
   <item>
     <guid>https://www.useonglee.dev/blog/넘블-쿠팡-챌린지-4회차</guid>
     <title>넘블 쿠팡 클론 코딩 챌린지 4회차 회고록</title>
