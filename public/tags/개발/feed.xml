@@ -7,9 +7,39 @@
       <language>ko-KR</language>
       <managingEditor>useong0830@naver.com (useonglee)</managingEditor>
       <webMaster>useong0830@naver.com (useonglee)</webMaster>
-      <lastBuildDate>Tue, 22 Feb 2022 00:00:00 GMT</lastBuildDate>
+      <lastBuildDate>Wed, 21 Sep 2022 00:00:00 GMT</lastBuildDate>
       <atom:link href="https://www.useonglee.dev/tags/개발/feed.xml" rel="self" type="application/rss+xml"/>
       
+  <item>
+    <guid>https://www.useonglee.dev/blog/CSR-SSR-with-Nextjs</guid>
+    <title>CSR / SSR with Next.js</title>
+    <link>https://www.useonglee.dev/blog/CSR-SSR-with-Nextjs</link>
+    <description>쿠팡 서비스의 상품 목록 페이지 구현을 마친 후 회고</description>
+    <pubDate>Wed, 21 Sep 2022 00:00:00 GMT</pubDate>
+    <author>useong0830@naver.com (useonglee)</author>
+    <category>front-end</category><category>Next.Js</category><category>개발</category>
+  </item>
+
+  <item>
+    <guid>https://www.useonglee.dev/blog/빌드-프로세스-개선하기</guid>
+    <title>Runtime 환경 변수 설정으로 빌드 프로세스 개선하기</title>
+    <link>https://www.useonglee.dev/blog/빌드-프로세스-개선하기</link>
+    <description>Runtime 환경 변수 설정으로 빌드 프로세스 개선하기</description>
+    <pubDate>Mon, 18 Jul 2022 00:00:00 GMT</pubDate>
+    <author>useong0830@naver.com (useonglee)</author>
+    <category>FRONT-END</category><category>개발</category>
+  </item>
+
+  <item>
+    <guid>https://www.useonglee.dev/blog/refesh-token-어떻게-관리하고-있나요</guid>
+    <title>Refresh Token 어떻게 관리하고 있나요?</title>
+    <link>https://www.useonglee.dev/blog/refesh-token-어떻게-관리하고-있나요</link>
+    <description>Refresh Token 그리고 슬라이딩 세션(Sliding Sessions) 전략</description>
+    <pubDate>Mon, 28 Mar 2022 00:00:00 GMT</pubDate>
+    <author>useong0830@naver.com (useonglee)</author>
+    <category>개발</category><category>front-end</category>
+  </item>
+
   <item>
     <guid>https://www.useonglee.dev/blog/msw</guid>
     <title>MSW로 API 모킹하기</title>
