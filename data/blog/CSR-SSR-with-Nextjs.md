@@ -100,13 +100,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 최근 프로젝트에서 Next.js를 통해 SSR을 구현했었는데, 그 때 구현했던 코드를 그대로 가져와 보았다. 먼저 이 프로젝트는 React-query를 통해 data fetching을 한다. 그리고 SSR을 구현한 이유는, Next.js의 Hydrate 과정에서 React-query를 통해 데이터를 가져올 때 쿼리스트링의 정보를 통해 서버와 통신한다.
 
-하지만 `useRouter`를 사용해서 쿼리스트링 값을 가져오게 되면 서버에서는 이 값을 활용할 수가 없어서 `getServerSideProps`을 통해 서버 사이드에서 쿼리스트링 정보를 받아온 후 데이터 페칭을 하게 한 후 무리없이
+하지만 `useRouter`를 사용해서 쿼리스트링 값을 가져오게 되면 서버에서는 이 값을 활용할 수가 없어서 `getServerSideProps`을 통해 서버 사이드에서 쿼리스트링 정보를 받아온 후 React-query를 통해 서버 데이터를 원격 제어할 수 있게끔 구현을 했다. 그러면 Hydrate 과정에서도 문제없이 렌더링을 구사할 수 있다.
 
 <br />
 
 ### SSG
 
 <img src="https://user-images.githubusercontent.com/113016742/191687558-710557ca-eb87-43b4-aa80-b673f093a7b2.jpeg" alt="SSR 성능 지표" width="900" loading="lazy" />
+
+SSG는 SSR과 다르게 빌드 타임에 서버를
 
 <br />
 
@@ -116,7 +118,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 <br />
 
-위의 이미지는 실제로 내가 사이드 프로젝트에서 ISR을 사용했을 때, 백로그에 찍힌 화면이다. SSG의 단점을 극복하고자 무작정 ISR을 도입했더니 위와 같은 현상이 일어났다.
+위의 이미지는 실제로 내가 사이드 프로젝트에서 ISR을 사용했을 때, 백로그에 찍힌 화면이다. SSG의 단점을 극복하고자 무작정 ISR을 도입했더니 아래와 같은 문의를 같은 팀 백엔드 개발자분에게 받게 되었다ㅜㅜ
+
+위와 같은 이미지는 앱 빌드 이후 사용자가 사용하지 않아도 정해진 시간(여기서는 revalidate: 60를 통해 1분)을 기준으로 주기적으로 데이터 페칭을 하고 있는 것이었다. 그래서 백로그가 무한으로 찍히는 것을 방지하고자 해당 코드들을 지웠다.
+
+<img src="https://user-images.githubusercontent.com/113016742/191691651-12a21f66-2805-4ec7-9050-53a9f612fa1d.png" alt="SSR 성능 지표" width="600" loading="lazy" />
 
 ```ts
 export const getStaticProps = async () => {
@@ -131,6 +137,32 @@ export const getStaticProps = async () => {
   };
 };
 ```
+
+프로젝트가 끝나고 나중에 알게 된 사실이지만 사용자가 사용하지 않을 경우 데이터 페칭을 멈출 수 있다. 바로 아래 코드처럼! 현재 ISR은 Next.js에서 매우매우매우! 적극적으로 밀고 있는 렌더링 방식이다. SSG의 단점(빌드 이후 업데이트가 되지 않음)을 보완하고, 서버 사이드 시점이 아닌 빌드 시점에 페이지를 다운로드받
+
+```ts
+export async function getStaticPaths() {
+  const res = await fetch("https://.../posts");
+  const posts = await res.json();
+
+  // Get the paths we want to pre-render based on posts
+  const paths = posts.map((post) => ({
+    params: { id: post.id },
+  }));
+
+  return { paths, fallback: "blocking" };
+}
+```
+
+### On-demand Revalidation
+
+다른 한가지 방법은 데이터 변경시 재빌드를 하는 것이다.
+
+앞서 살펴본 revalidate 옵션을 사용하면 revalidate 의 값만큼은 캐시된 페이지를 보게된다. 이 캐시를 무효화하려면 revalidate 값만큼의 시간 이후 요청이 있어야한다. on-demand revalidation 방식은 데이터 변경이 일어났으니 재빌드를 해달라는 요청을 받으면 재빌드를 함으로써 캐시를 갱신한다.
+
+on-demand revalidation 방식에서는 revalidation 옵션을 사용하지 않는다. revalidation 을 사용하지 않으면 기본값이 false가 되어 revalidate() 함수를 사용할 때만 on-demand revalidation이 일어난다.
+
+On-demand Revalidation을 사용하기 위해서는 Next.js 만 알고있는 토큰을 생성해서 환경변수에 저장해야한다. 해당 토큰을 사용해야 인가된 사용자만 아래와 같은 url로 Next.js api에 revalidate를 요청할 수 있다.
 
 <br />
 <br />
