@@ -55,10 +55,13 @@ ReactDOM.render(<App />, document.getElementById("root"));
 
 이제 빈 껍데기를 받아왔을 때 단점을 알 수 있다. 클라이언트단에서 모든 리소스를 다운받고 화면을 그리다보니 초기 렌더링이 느릴 수 밖에 없다. 그리고 클라이언트단에서 화면을 구성하게 되면 구글 검색엔진 봇이 JS 파일을 인식할 수 없기 때문에 빈 HTML 파일을 읽어드리게 되고, 이러한 과정은 SEO 문제로도 직결될 수 있다.
 
+그리고 사용자와 인터랙션이 일어났을 때 화면을 그리므로, 만약 큰 규모의 앱이라면 그려야 할 js 코드의 양이 많으므로, 유저에게 앱 자체가 무거운 느낌을 줄 수 있다.
+
 CSR의 단점
 
-- 초기 렌더링 속도가 느리다. (TTFP)
-- SEO를 활용할 수 없다.
+- 초기 렌더링 속도가 느리다. (TTFB: Time To First Byte)
+- 웹 애플리케이션 규모가 커질수록 js 코드 양이 많아지므로 앱 자체가 무거워질 수 있다.
+- SEO를 활용할 수 없다. ([SEO에 TTFB도 정말 중요하다고 함](https://moz.com/blog/improving-search-rank-by-optimizing-your-time-to-first-byte))
 
 지금까지 단점만 알아보았다. 나름 크리티컬한 단점들임에도 CSR로 구현된 수많은 페이지들이 있다. CSR의 장점은 무엇일까?
 
@@ -85,9 +88,11 @@ Next.js를 사용해보면서 느낀점은 사용자 중심 플랫폼에서 정�
 
 ### SSR
 
-<img src="https://user-images.githubusercontent.com/113016742/191682595-7e96ebe4-42d7-41d1-bf04-e9df022e954f.png" alt="SSR 성능 지표" width="900" loading="lazy" />
-
 ```ts
+export default function MyApp({ quries }: IMyAppProps) {
+  console.log(quries); // { offset: 1, limit: 24, sorter: '' }
+}
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { offset, limit, sorter } = context.query;
   const queries = JSON.parse(JSON.stringify({ offset, limit, sorter }));
@@ -98,11 +103,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 ```
 
-최근 프로젝트에서 Next.js를 통해 SSR을 구현했었는데, 그 때 구현했던 코드를 그대로 가져와 보았다. 먼저 이 프로젝트는 React-query를 통해 data fetching을 한다. 그리고 SSR을 구현한 이유는, Next.js의 Hydrate 과정에서 React-query를 통해 데이터를 가져올 때 쿼리스트링의 정보를 통해 서버와 통신한다.
+최근 프로젝트에서 Next.js를 통해 SSR을 구현했었는데, 그 때 구현했던 코드를 그대로 가져와 보았다. 서버 사이드에서 현재 페이지의 쿼리스트링을 가져온 후 해당 페이지 컴포넌트의 props로 쿼리스트링을 넘겨주는 코드이다. `useRouter`를 사용해서 쿼리스트링 값을 가져오게 되면 서버 사이드에서는 이 값을 활용할 수가 없어서 `getServerSideProps`을 통해 서버 사이드에서 쿼리스트링 정보를 받아온 후 React-query를 통해 서버 데이터를 원격 제어할 수 있게끔 구현을 했다. 그러면 Hydrate 과정에서도 문제없이 렌더링을 구사할 수 있다.
 
-하지만 `useRouter`를 사용해서 쿼리스트링 값을 가져오게 되면 서버에서는 이 값을 활용할 수가 없어서 `getServerSideProps`을 통해 서버 사이드에서 쿼리스트링 정보를 받아온 후 React-query를 통해 서버 데이터를 원격 제어할 수 있게끔 구현을 했다. 그러면 Hydrate 과정에서도 문제없이 렌더링을 구사할 수 있다.
+위의 코드는 간단하지만 만약 초기 렌더링에서 많은 데이터 fetching이 이루어진다면 SSR은 CSR에 비해 오히려 더 좋지 않은 성능을 보일 수 있다. 그리고 만약 해당 프로젝트를 정적 웹 호스팅한다면 `getServerSideProps` 메서드는 사용할 수 없다.
 
-<br />
+`next build` 후 `next export` 스크립트 명령어를 실행하면 바로 오류가 발생한다.
+
+<img src="https://user-images.githubusercontent.com/75570915/196195853-8d7d8d1b-c4e5-48ea-89b4-097186c84f45.png" alt="getServerSideProps 에러 이미지" width="900" loading="lazy" />
+
+uri와 라우팅이 관련된 페이지 렌더링방식은 `getStaticPath`와 `getStaticProps`를 같이 사용해서 SSG 방식으로 해결해 줄 수 있다.
 
 ### SSG
 
