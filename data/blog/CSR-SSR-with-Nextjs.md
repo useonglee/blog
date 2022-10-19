@@ -143,70 +143,115 @@ uri와 라우팅이 관련된 페이지 렌더링방식은 `getStaticPath`와 `g
 
 가장 중요한 포인트는 SSG는 `빌드 시점`에 앱을 모두 그린다는 점이다. 그렇기 때문에 SSR과 달리 페이지에서 HTML을 생성하지 않고, 이미 생성되어 있기 때문에 일관된 TTFB를 가져올 수 있다. 그래서 SSG는 미리 생성된 HTML을 꺼내온다고 생각하면 이해하기 쉽다.
 
-그러면 미리 생성된 HTML을 꺼내온다면 useEffect와 같이 마운트 이후 필요한 데이터 이외에 모든 것들은 미리 구성해놓고, 데이터가 필요할때 '데이터만' CSR 방식으로 렌더링하게 된다. 그렇다면 SSG에서도 바로 단점을 알아볼 수 있다.
+<img src="https://user-images.githubusercontent.com/75570915/196750601-ad146e11-a68c-4535-bb0a-20e592044a70.png" alt="SSG 페이지 lighthouse 지표" width="900" loading="lazy" />
 
-데이터가 많이 필요할수록 CSR의 단점과 똑같이 화면을 인식하는데 성능이 떨어질 수도 있다.
-
-<img src="https://user-images.githubusercontent.com/75570915/196722185-ec47b40a-c4c2-4d49-9d10-1dd22c7b2776.png" alt="Next.js 프로젝트 빌드 결과물" width="900" loading="lazy" />
-
-### ISR
-
-<img src="https://user-images.githubusercontent.com/113016742/191682574-41cf308d-7cc4-4174-931c-64136b84853a.png" alt="SSR 성능 지표" width="900" loading="lazy" />
+SSG로 구현한 유저 프로필 정보 조회 페이지이다. SSG로 구현하면 Lighthouse의 성능 지표는 정말 막강하다.
 
 <br />
 
-위의 이미지는 실제로 내가 사이드 프로젝트에서 ISR을 사용했을 때, 백로그에 찍힌 화면이다. SSG의 단점을 극복하고자 무작정 ISR을 도입했더니 아래와 같은 문의를 같은 팀 백엔드 개발자분에게 받게 되었다ㅜㅜ
+그러면 미리 생성된 HTML을 꺼내온다면 useEffect와 같이 마운트 이후 필요한 데이터 이외에 모든 것들은 미리 구성해놓고, 데이터가 필요할때 '데이터만' CSR 방식으로 렌더링하게 된다. 그렇다면 SSG에서도 바로 단점을 알아볼 수 있다.
 
-위와 같은 이미지는 앱 빌드 이후 사용자가 사용하지 않아도 정해진 시간(여기서는 revalidate: 60를 통해 1분)을 기준으로 주기적으로 데이터 페칭을 하고 있는 것이었다. 그래서 백로그가 무한으로 찍히는 것을 방지하고자 해당 코드들을 지웠다.
+데이터가 많이 필요할수록 CSR의 단점과 똑같이 화면을 인식하는데 성능이 떨어질 수도 있다. 그리고 빌드 시점에 앱을 그리기 때문에 fresh한 데이터를 보여줄 수 없다. 만약 사용자로 인해 데이터가 업데이트 되었고, 최신 데이터를 받아와야 하는 상황에서 SSG는 최신 데이터를 받아볼 수 없다. 최신 데이터를 다시 받기 위해서는 빌드를 다시 해야 한다.
 
-<img src="https://user-images.githubusercontent.com/113016742/191691651-12a21f66-2805-4ec7-9050-53a9f612fa1d.png" alt="SSR 성능 지표" width="600" loading="lazy" />
+<br />
 
-```ts
-export const getStaticProps = async () => {
-  const res = await fetch("https://.../posts");
-  const posts = await res.json();
+<img src="https://user-images.githubusercontent.com/75570915/196722185-ec47b40a-c4c2-4d49-9d10-1dd22c7b2776.png" alt="Next.js 프로젝트 빌드 결과물" width="900" loading="lazy" />
 
-  return {
-    props: {
-      posts,
-    },
-    revalidate: 60,
-  };
-};
-```
+위의 이미지는 실제 진행 중인 프로젝트의 빌드 결과물이다. 빌드 결과물을 자세히 보면 어떤 페이지들이 SSG로 동작하고 있는지 알 수 있다. SSG는 `getStaticPaths`와 `getStaticProps`를 조합해서 사용한 페이지라면 SSG 방식으로 동작한다. `getStaticPaths`를 통해 미리 생성해야 할 페이지들을 미리 받아 놓는다. 그리고 그 페이지들의 배열을 순회하며 `getStaticProps`를 통해 props들을 미리 받아 놓는다. 이러한 이유로 인해 클라이언트단에서는 이미 props가 받아져 있는 상태임을 알 수 있다.
 
-프로젝트가 끝나고 나중에 알게 된 사실이지만 사용자가 사용하지 않을 경우 데이터 페칭을 멈출 수 있다. 바로 아래 코드처럼! 현재 ISR은 Next.js에서 매우매우매우! 적극적으로 밀고 있는 렌더링 방식이다. SSG의 단점(빌드 이후 업데이트가 되지 않음)을 보완하고, 서버 사이드 시점이 아닌 빌드 시점에 페이지를 다운로드받
+### ISR
+
+그렇다면 ISR(Incremental Static Regeneration)은 무엇일까? 아마 Next.js를 많이 다뤄보지 않았다면 SSG까지는 많이 들어보았을 것이다. ISR은 SSG의 단점을 보완하기 위해 나온 방식이다. SSG의 단점은 정적인 페이지를 업데이트하려면 다시 빌드를 해야 한다고 설명했었다.
+
+그러면 빌드를 안하고 업데이트를 할 수 있는 방법은 없을까? 이러한 문제를 고안해낸 방식이 바로 ISR 렌더링 방식이다. 미리 정해둔 시간동안만 캐시된 페이지를 보여주는 것이다. 사용법은 간단하다. getStaticProps의 옵션 중에서 `revalidate`를 추가해 주면 된다.<br />
+(이 개념에 대해 더 깊게 알고 싶다면 **stale-while-revalidate**에 대해 검색해 보면 좋을 것 같다.)
+
+<br />
 
 ```ts
 export async function getStaticPaths() {
   const res = await fetch("https://.../posts");
   const posts = await res.json();
 
-  // Get the paths we want to pre-render based on posts
+  // 이 과정을 통해 pre-render 기반으로 웹을 동작할 수 있다.
   const paths = posts.map((post) => ({
     params: { id: post.id },
   }));
 
-  return { paths, fallback: "blocking" };
+  return { paths, fallback: false };
+}
+
+export const getStaticProps = async () => {
+  const res = await fetch("https://.../posts/1");
+  const posts = await res.json();
+
+  return {
+    props: {
+      posts,
+    },
+    revalidate: 60, // 60초마다 업데이트
+  };
+};
+```
+
+위와 같은 코드로 페이지를 구성했다면 그 페이지는 60초마다 재 빌드를 할 것이다. 그리고 나는 실제로 위와 같은 방식으로 ISR을 구현했었고, 60초마다 정기적으로 업데이트를 하도록 했다.
+
+하지만 얼마 지나지 않아서 백엔드 개발자로부터 슬랙 알림이 울렸다... 60초마다 로그가 계속 찍히고 있다고...
+
+<br />
+
+<img src="https://user-images.githubusercontent.com/113016742/191691651-12a21f66-2805-4ec7-9050-53a9f612fa1d.png" alt="SSR 성능 지표" width="600" loading="lazy" />
+
+응...? 잠만... 생각해보니 알아서 재빌드를 하니까.... 60초마다 빌드를 하면 60초마다 서버에 api 통신을 시도한다는 것인데 그게 앱이 실행 중이지 않을 때도 요청을 하는구나..? 나는 ISR이란 방식이 마치 은탄환인 것 마냥 무작정 도입을 했었다. 잘 알지도 못하고 쓰면 이러한 낭패를 보는구나.. 라는 것을 오늘 '또' 깨달았다 ..ㅎㅎ
+
+<br />
+
+<img src="https://user-images.githubusercontent.com/113016742/191682574-41cf308d-7cc4-4174-931c-64136b84853a.png" alt="ISR 백로그 지표" width="900" loading="lazy" />
+
+백로그 찍힌걸 보내주셨는데, 다시 확대해서 확인해 보았다. 진짜 1분 간격으로 찍히고 있었다...ㅋㅋㅋㅋㅋㅋ 아무도 사용 안 하는데도... 이 때는 일단 임시방편으로 ISR 로직의 `getStaticProps` 메서드를 지우고 CSR 방식으로 구현했다. 하지만 ISR의 이러한 부분을 보완하고자 나온 방법이 또 있었다. 진짜 이 세상에는 천재들이 정말 많은 것 같다. (행복)
+
+<br />
+
+## On-demand Revalidation
+
+> 이 기능은 Next.js 12.2.0 버전부터 지원한다.
+
+이 방식은 ISR 방식과 비슷하지만 데이터 변경 시에만 재빌드를 하는 것이다. on-demand revalidation 방식은 `revalidation 옵션을 사용하지 않는다.` 아래 코드는 공식 문서에서 가져왔다.
+
+```ts
+// pages/api/revalidate.js
+
+export default async function handler(req, res) {
+  // 토큰 검사
+  if (req.query.secret !== process.env.MY_SECRET_TOKEN) {
+    return res.status(401).json({ message: "Invalid token" });
+  }
+
+  try {
+    // 재빌드할 경로명을 정확하게 입력해야한다. req의 body를 통해 받아올 수 있다.
+    // 파일명이 "/blog/[slug]" 이더라도 "/blog/post-1" 처럼 입력해야한다.
+    await res.revalidate("재빌드할 페이지 경로");
+    return res.json({ revalidated: true });
+  } catch (err) {
+    return res.status(500).send("Error revalidating");
+  }
 }
 ```
 
-### On-demand Revalidation
+앞서 살펴본 ISR 방식인 revalidate 옵션을 사용하면 revalidate 의 값만큼만 캐시된 페이지를 보게 된다고 설명했다. 이 캐시를 무효화하려면 revalidate 값만큼의 시간이 경과되어야만 다시 요청을 한다.
 
-다른 한가지 방법은 데이터 변경시 재빌드를 하는 것이다.
+반대로 `on-demand revalidation` 방식은 데이터 변경이 일어났을 때 재빌드를 해달라는 요청을 보내고, 페이지단에서 재빌드 요청을 받으면 재빌드를 함으로써 캐시를 갱신한다.
 
-앞서 살펴본 revalidate 옵션을 사용하면 revalidate 의 값만큼은 캐시된 페이지를 보게된다. 이 캐시를 무효화하려면 revalidate 값만큼의 시간 이후 요청이 있어야한다. on-demand revalidation 방식은 데이터 변경이 일어났으니 재빌드를 해달라는 요청을 받으면 재빌드를 함으로써 캐시를 갱신한다.
-
-on-demand revalidation 방식에서는 revalidation 옵션을 사용하지 않는다. revalidation 을 사용하지 않으면 기본값이 false가 되어 revalidate() 함수를 사용할 때만 on-demand revalidation이 일어난다.
-
-On-demand Revalidation을 사용하기 위해서는 Next.js 만 알고있는 토큰을 생성해서 환경변수에 저장해야한다. 해당 토큰을 사용해야 인가된 사용자만 아래와 같은 url로 Next.js api에 revalidate를 요청할 수 있다.
+On-demand Revalidation을 사용하기 위해서는 Next.js 만 알고있는 토큰을 생성해서 환경변수에 저장해야한다. 해당 토큰을 사용해야 인가된 사용자만 위와 같은 url로 Next.js api에 revalidate를 요청할 수 있다.
 
 <br />
-<br />
 
-## Next.js 프로젝트를 실행했을 때 실행되는 코드들
+## 놓치기 쉬운 Next.js에 대한 정보 요약
 
--
+- Next.js로 만들어진 웹 페이지는 url로 접근시 pre-rendering(SSG, SSR) 된 페이지를 반환한다.<br />
+- pre-rendering은 프론트엔드 서버에서 돌아가는 Next.js에서 일어난다.<br />
+- 첫 요청하는 페이지에 대해서만 SSG 혹은 SSR으로 서버 사이드단에서 미리 생성해 놓은 파일을 응답하는 것이고, 그 이후부터는 router를 통해 이동하는 것은 모두 CSR이다.
+- 그러므로 Link를 클릭하거나 router.push()를 통해 이동하면 CSR 방식으로 페이지를 전환한다.
 
 <br />
 <br />
@@ -215,3 +260,5 @@ On-demand Revalidation을 사용하기 위해서는 Next.js 만 알고있는 토
 ### Reference
 
 - [Rendering on the Web](https://web.dev/rendering-on-the-web/)
+- [stale-while-revalidate로 최신 상태 유지](https://web.dev/stale-while-revalidate/)
+- [Next.js에 대한 거의 모든 것](https://velog.io/@sj_dev_js/Next.js-%EC%97%90-%EB%8C%80%ED%95%9C-%EA%B1%B0%EC%9D%98-%EB%AA%A8%EB%93%A0-%EA%B2%83#isr-incremental-static-regeneration)
