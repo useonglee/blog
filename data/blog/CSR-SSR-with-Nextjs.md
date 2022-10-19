@@ -57,6 +57,10 @@ ReactDOM.render(<App />, document.getElementById("root"));
 
 그리고 사용자와 인터랙션이 일어났을 때 화면을 그리므로, 만약 큰 규모의 앱이라면 그려야 할 js 코드의 양이 많으므로, 유저에게 앱 자체가 무거운 느낌을 줄 수 있다.
 
+<img src="https://user-images.githubusercontent.com/113016742/196691355-be16d227-f348-4234-9869-c214e65d5553.png" alt="CSR 렌더링 과정" width="900" loading="lazy" />
+
+HTML 부분이 맨 처음 봤던 이미지의 빨간색 박스 부분이다. 그리고 그려야 할 js 코드들이 바로 client rendering 부분이다. 그래서 CSR의 단점은 js 코드의 양이 증가함에 따라 콘텐츠들을 처리하는 부분에 있어 지연 로드가 된다는 점이다.
+
 CSR의 단점
 
 - 초기 렌더링 속도가 느리다. (TTFB: Time To First Byte)
@@ -80,7 +84,7 @@ SSR은 React에서 `eject`를 통해 웹팩을 커스터마이징하거나(CRA�
 
 Next.js를 사용해보면서 느낀점은 사용자 중심 플랫폼에서 정말 극도로 효율을 나타낸다고 생각한다. 많은 장점들이 있지만 이번 블로그에서는 SSR과 관련된 내용만 다루려고 한다.
 
-먼저 SPA(Single Page Application)는 렌더링 방식(CSR, SSR)과 같은 선상에 놓으면 안된다. 완전히 다른 개념이기 때문이다. SPA는 첫 렌더 이후 다시 HTML을 받아오지 않는다. 다만 url 변경을 통해 페이지를 이동하고 필요한 데이터만 받아온다. 그래서 CSR 방식에서 각광을 받았던 이유가 페이지를 이동할 때마다 페이지 요청을 하지 않아도 되기 떄문이라고 생각한다.
+먼저 SPA(Single Page Application)는 렌더링 방식(CSR, SSR)과 같은 선상에 놓으면 안된다. 완전히 다른 개념이기 때문이다. SPA는 첫 렌더 이후 다시 HTML을 받아오지 않는다. 다만 url 변경을 통해 페이지를 이동하고 필요한 데이터만 받아온다. 그래서 CSR 방식에서 각광을 받았던 이유가 페이지를 이동할 때마다 페이지 요청을 하지 않아도 되기 때문이라고 생각한다.
 
 그렇다면 SPA에서는 CSR만 사용하면 되는게 아닌가? 그렇지 않다. 앞으로 설명하는 내용은 Next.js가 추구하는 방향과 많이 직결되는데, 초기 렌더를 SSG 방식으로 화면을 그리고, 이후 페이지 이동은 CSR로 웹 서비스를 만드는 것이다.
 
@@ -105,7 +109,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 최근 프로젝트에서 Next.js를 통해 SSR을 구현했었는데, 그 때 구현했던 코드를 그대로 가져와 보았다. 서버 사이드에서 현재 페이지의 쿼리스트링을 가져온 후 해당 페이지 컴포넌트의 props로 쿼리스트링을 넘겨주는 코드이다. `useRouter`를 사용해서 쿼리스트링 값을 가져오게 되면 서버 사이드에서는 이 값을 활용할 수가 없어서 `getServerSideProps`을 통해 서버 사이드에서 쿼리스트링 정보를 받아온 후 React-query를 통해 서버 데이터를 원격 제어할 수 있게끔 구현을 했다. 그러면 Hydrate 과정에서도 문제없이 렌더링을 구사할 수 있다.
 
-위의 코드는 간단하지만 만약 초기 렌더링에서 많은 데이터 fetching이 이루어진다면 SSR은 CSR에 비해 오히려 더 좋지 않은 성능을 보일 수 있다. 그리고 만약 해당 프로젝트를 정적 웹 호스팅한다면 `getServerSideProps` 메서드는 사용할 수 없다.
+> Hydrate란? 서버 사이드단에서 번들링된 js 코드를 클라이언트로 보낸 후, HTML 코드와 JS 코드를 매칭 시키는 과정을 일컫는다. 즉, 빠르게 FCP를 구성한 다음 웹 화면을 구성하기 전 클라이언트 측에서 렌더링을 통해 Hydrate 과정을 거친다.
+
+위의 코드는 간단하지만 만약 초기 렌더링에서 많은 데이터 fetching이 이루어진다면 SSR은 CSR에 비해 오히려 더 좋지 않은 성능을 보일 수 있다. Hydration 과정을 거친 SSR 방식은 FCP가 빠르다는 장점이 있지만 반대로 TTI(Time To Interactive)에 치명적인 단점이 생길 수 있다. 화면은 다 그려졌지만 막상 동작이 안하는 경우를 한 번쯤은 경험해 봤을 것이다.(경험하지 않았다면 정말 대단한 경우일 수도...)
+
+화면이 다 그려졌지만 동작이 안한다는 것은 어쩌면 지연 로드보다 더 큰 단점이 될 수도 있다. 그래서 캐시 가능성이 높은 페이지만 SSR을 사용하게 해서 TTFB를 빠르게 가져옴과 동시에 pre-rendering처럼 동작하게 해서 TTI도 빠르게 가져가는 방식이 있다. (이러한 부분들을 next.js에서 손쉽게 할 수 있다.)
+
+그리고 만약 해당 프로젝트를 정적 웹 호스팅한다면 `getServerSideProps` 메서드는 사용할 수 없다.
 
 `next build` 후 `next export` 스크립트 명령어를 실행하면 바로 오류가 발생한다.
 
@@ -113,13 +123,31 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 uri와 라우팅이 관련된 페이지 렌더링방식은 `getStaticPath`와 `getStaticProps`를 같이 사용해서 SSG 방식으로 해결해 줄 수 있다.
 
+<br />
+<br />
+<br />
+
 ### SSG
 
-<img src="https://user-images.githubusercontent.com/113016742/191687558-710557ca-eb87-43b4-aa80-b673f093a7b2.jpeg" alt="SSR 성능 지표" width="900" loading="lazy" />
+<img src="https://user-images.githubusercontent.com/75570915/196711374-8753088c-20e7-44ea-a529-0180b41ef8f1.png" alt="SSG 정적 웹 호스팅 과정" width="900" loading="lazy" />
 
-SSG는 SSR과 다르게 빌드 타임에 서버를
+위의 이미지는 Next.js로 개발한 앱을 정적 웹 호스팅 했을 때의 과정이다. Next.js의 앱은 빌드 후 스크립트 명령어 `next export`로 정적 html 파일들을 생성할 수 있고, 이 파일들을 s3 버킷에 올리면 정적 웹 호스팅을 할 수 있다.
+
+<center>
+<img src="https://user-images.githubusercontent.com/75570915/196719745-a8b6a320-19cc-4161-8730-e4097256c815.png" alt="SSG 렌더링 과정" width="700" loading="lazy" />
+</center>
 
 <br />
+
+그렇다면 SSG(Static Site Generators)는 어떠한 특징들을 다루고 있을까? 왜 Next.js에서는 SSG(ISR) 렌더링 방식을 강력하게 추천하고 있을까? 이 주제가 어쩌면 이 블로그의 핵심 내용이 될 수도 있겠다.
+
+가장 중요한 포인트는 SSG는 `빌드 시점`에 앱을 모두 그린다는 점이다. 그렇기 때문에 SSR과 달리 페이지에서 HTML을 생성하지 않고, 이미 생성되어 있기 때문에 일관된 TTFB를 가져올 수 있다. 그래서 SSG는 미리 생성된 HTML을 꺼내온다고 생각하면 이해하기 쉽다.
+
+그러면 미리 생성된 HTML을 꺼내온다면 useEffect와 같이 마운트 이후 필요한 데이터 이외에 모든 것들은 미리 구성해놓고, 데이터가 필요할때 '데이터만' CSR 방식으로 렌더링하게 된다. 그렇다면 SSG에서도 바로 단점을 알아볼 수 있다.
+
+데이터가 많이 필요할수록 CSR의 단점과 똑같이 화면을 인식하는데 성능이 떨어질 수도 있다.
+
+<img src="https://user-images.githubusercontent.com/75570915/196722185-ec47b40a-c4c2-4d49-9d10-1dd22c7b2776.png" alt="Next.js 프로젝트 빌드 결과물" width="900" loading="lazy" />
 
 ### ISR
 
@@ -179,3 +207,11 @@ On-demand Revalidation을 사용하기 위해서는 Next.js 만 알고있는 토
 ## Next.js 프로젝트를 실행했을 때 실행되는 코드들
 
 -
+
+<br />
+<br />
+<br />
+
+### Reference
+
+- [Rendering on the Web](https://web.dev/rendering-on-the-web/)
